@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Punch Logs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Card uid</th>
+      <th>Card type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @punch_logs.each do |punch_log| %>
+      <tr>
+        <td><%= punch_log.card_uid %></td>
+        <td><%= punch_log.card_type %></td>
+        <td><%= link_to 'Show', punch_log %></td>
+        <td><%= link_to 'Edit', edit_punch_log_path(punch_log) %></td>
+        <td><%= link_to 'Destroy', punch_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Punch Log', new_punch_log_path %>

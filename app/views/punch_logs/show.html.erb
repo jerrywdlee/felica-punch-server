@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Card uid:</strong>
+  <%= @punch_log.card_uid %>
+</p>
+
+<p>
+  <strong>Card type:</strong>
+  <%= @punch_log.card_type %>
+</p>
+
+<%= link_to 'Edit', edit_punch_log_path(@punch_log) %> |
+<%= link_to 'Back', punch_logs_path %>

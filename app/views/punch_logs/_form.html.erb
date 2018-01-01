@@ -1,0 +1,27 @@
+<%= form_with(model: punch_log, local: true) do |form| %>
+  <% if punch_log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(punch_log.errors.count, "error") %> prohibited this punch_log from being saved:</h2>
+
+      <ul>
+      <% punch_log.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :card_uid %>
+    <%= form.text_field :card_uid, id: :punch_log_card_uid %>
+  </div>
+
+  <div class="field">
+    <%= form.label :card_type %>
+    <%= form.number_field :card_type, id: :punch_log_card_type %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
