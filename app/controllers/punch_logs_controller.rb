@@ -2,7 +2,6 @@ class PunchLogsController < ApplicationController
   before_action :set_punch_log, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token, 
   if: Proc.new { |c| c.request.format == 'application/json' }
-  # before_action :get_card_user_list
 
   # GET /punch_logs
   # GET /punch_logs.json
@@ -74,10 +73,5 @@ class PunchLogsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def punch_log_params
       params.require(:punch_log).permit(:card_uid, :card_type)
-    end
-
-    def get_card_user_list
-      @card_user = User.joins(:cards).select("users.*, cards.*")
-      # p @card_user.first.name
     end
 end

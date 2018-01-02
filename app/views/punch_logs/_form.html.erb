@@ -16,7 +16,7 @@
     <!--
     <%= form.text_field :card_uid, id: :punch_log_card_uid %>
     -->
-    <%= form.collection_select :card_uid, User.card_user, :card_uid, :card_user_label, :prompt => true %>
+    <%= form.collection_select :card_uid, Card.card_user, :card_uid, :card_user_label, :prompt => true %>
   </div>
 
   <div class="field">

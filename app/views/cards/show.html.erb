@@ -2,7 +2,7 @@
 
 <p>
   <strong>User:</strong>
-  <%= @card.user_id %>
+  <%= User.find(@card.user_id).name %>
 </p>
 
 <p>
