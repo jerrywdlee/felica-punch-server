@@ -1,6 +1,9 @@
 {
   "name": "felica-punch-server",
   "private": true,
+  "engines": {
+    "node": "8.9.x"
+  },
   "dependencies": {
     "koa": "^2.4.1",
     "koa-better-http-proxy": "^0.2.4",
