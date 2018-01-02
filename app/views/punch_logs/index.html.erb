@@ -17,7 +17,7 @@
   <tbody>
     <% @punch_logs.each do |punch_log| %>
       <tr>
-        <td><%= @card_user.where('cards.card_uid = ?', punch_log.card_uid).first.name %></td>
+        <td><%= User.card_user.where('cards.card_uid = ?', punch_log.card_uid).first.name %></td>
         <td><%= punch_log.card_uid %></td>
         <td><%= punch_log.card_type %></td>
         <td><%= punch_log.created_at.localtime %></td>
