@@ -3,12 +3,16 @@
   "private": true,
   "scripts": {
     "heroku-prebuild": "bash nvm.sh",
-    "heroku-postbuild": "echo This runs afterwards."
+    "heroku-postbuild": "echo This runs afterwards.",
+    "server": "run-ds"
   },
   "engines": {
     "node": "8.9.x"
   },
   "dependencies": {
+    "dev-service-runner": "^0.1.1",
+    "express": "^4.16.2",
+    "http-proxy-middleware": "^0.17.4",
     "koa": "^2.4.1",
     "koa-better-http-proxy": "^0.2.4",
     "koa-router": "^7.3.0",
