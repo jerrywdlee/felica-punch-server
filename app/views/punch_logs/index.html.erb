@@ -5,8 +5,11 @@
 <table>
   <thead>
     <tr>
+      <th>User name</th>
       <th>Card uid</th>
       <th>Card type</th>
+      <th>Created at</th>
+      <th>Updated at</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,8 +17,11 @@
   <tbody>
     <% @punch_logs.each do |punch_log| %>
       <tr>
+        <td><%= @card_user.where('cards.card_uid = ?', punch_log.card_uid).first.name %></td>
         <td><%= punch_log.card_uid %></td>
         <td><%= punch_log.card_type %></td>
+        <td><%= punch_log.created_at.localtime %></td>
+        <td><%= punch_log.updated_at.localtime %></td>
         <td><%= link_to 'Show', punch_log %></td>
         <td><%= link_to 'Edit', edit_punch_log_path(punch_log) %></td>
         <td><%= link_to 'Destroy', punch_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
