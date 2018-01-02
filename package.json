@@ -2,8 +2,6 @@
   "name": "felica-punch-server",
   "private": true,
   "scripts": {
-    "heroku-prebuild": "bash nvm.sh",
-    "heroku-postbuild": "echo This runs afterwards.",
     "server": "run-ds"
   },
   "engines": {
