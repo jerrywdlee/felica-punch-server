@@ -24,6 +24,8 @@ app.use(proxy('localhost:3000', {
     if (ctx.path.includes('socket.io')) {
       return false;
     } else {
+      const origin = ctx.origin.replace(/http:|https:/, '');
+      ctx.headers['X-Forwarded-Host'] = origin;
       return true;
     }
   }
