@@ -10,4 +10,4 @@
 - 
   nameTag: Rails # needed, as the name tag show in console
   color: blue # optional, the color of name tag
-  command: bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development} # needed, command to start this service 
+  command: rails s # needed, command to start this service 
