@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103063226) do
+ActiveRecord::Schema.define(version: 20180103103206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,10 +44,11 @@ ActiveRecord::Schema.define(version: 20180103063226) do
     t.string "email"
     t.string "pass"
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "slack_url"
     t.string "slack_room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slack_name"
   end
 
 end

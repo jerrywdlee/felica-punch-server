@@ -1,13 +1,10 @@
 class PunchLogsController < ApplicationController
   before_action :set_punch_log, only: [:show, :edit, :update, :destroy]
-  # skip_before_action :verify_authenticity_token, 
-  # if: Proc.new { |c| c.request.format == 'application/json' }
 
   # GET /punch_logs
   # GET /punch_logs.json
   def index
     @punch_logs = PunchLog.all
-    # p @card_user.first.card_uid
   end
 
   # GET /punch_logs/1

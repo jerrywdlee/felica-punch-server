@@ -5,9 +5,13 @@ one:
   email: MyString
   pass: MyString
   description: MyText
+  slack_url: MyString
+  slack_room_id: MyString
 
 two:
   name: MyString
   email: MyString
   pass: MyString
   description: MyText
+  slack_url: MyString
+  slack_room_id: MyString

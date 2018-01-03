@@ -1,7 +1,7 @@
 class Card < ApplicationRecord
   belongs_to :user
   def self.card_user
-    User.left_joins(:cards).select("users.name, users.slack_url, cards.*")
+    Card.joins(:user).select("users.name, users.slack_url, users.slack_room_id, users.slack_name, cards.*")
     # p @card_user.first.name
   end
   def self.search(card_uid)

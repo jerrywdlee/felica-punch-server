@@ -26,15 +26,24 @@
     <%= form.text_field :pass, id: :user_pass %>
   </div>
 
-
-  <div class="field">
-    <%= form.label :slack_url %>
-      <%= form.text_field :slack_url, id: :user_slack_url %>
-  </div>
-
   <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description, id: :user_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :slack_url %>
+    <%= form.text_field :slack_url, id: :user_slack_url %>
+  </div>
+
+  <div class="field">
+    <%= form.label :slack_room_id %>
+    <%= form.text_field :slack_room_id, id: :user_slack_room_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :slack_name %>
+    <%= form.text_field :slack_name, id: :user_slack_name %>
   </div>
 
   <div class="actions">

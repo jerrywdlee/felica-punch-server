@@ -20,5 +20,20 @@
   <%= @user.description %>
 </p>
 
+<p>
+  <strong>Slack url:</strong>
+  <%= @user.slack_url %>
+</p>
+
+<p>
+  <strong>Slack room:</strong>
+  <%= @user.slack_room_id %>
+</p>
+
+<p>
+  <strong>Slack name:</strong>
+  <%= @user.slack_name %>
+</p>
+
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
