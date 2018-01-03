@@ -3,25 +3,37 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const proxy = require('koa-better-http-proxy');
+const bodyParser = require('koa-bodyparser');
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
 const http = require('http');
-const readFile = util.promisify(fs.readFile);
+const r2 = require('r2');
+const _ = require('lodash');
+const Slack = require('./lib/slack_helper');
 
+const readFile = util.promisify(fs.readFile);
 const app = new Koa();
 const router = new Router();
+const slack = new Slack('Felica Punch', ':panda_face:');
 
 const PORT = process.env.PORT || 3030;
+const rails_port = 3000;
 
 // const io = require('socket.io')(app);
+app.use(logger);
+app.use(async (ctx, next) => {
+  if (ctx.path !== '/socket/punch') ctx.disableBodyParser = true;
+  await next();
+});
+app.use(bodyParser());// こいつはrails用のparamsを勝手にjsonにする
 app.use(router.routes()).use(router.allowedMethods());
-app.use(proxy('localhost:3000', {
+app.use(proxy(`localhost:${rails_port}`, {
   filter: (ctx) => {
     // return true;
-    console.log(ctx.path);
-    console.log(ctx.path.includes('socket.io'));
-    if (ctx.path.includes('socket.io')) {
+    // console.log(ctx.path);
+    // console.log(ctx.path.includes('socket.io'));
+    if (ctx.path.includes('socket.io') || ctx.path.includes('/socket/socket.js')) {
       return false;
     } else {
       const origin = ctx.origin.replace(/http:|https:/, '');
@@ -31,20 +43,66 @@ app.use(proxy('localhost:3000', {
   }
 }));
 
+
+
 // app.listen(3030);
 const server = http.createServer(app.callback())
 const io = require('socket.io')(server);
 server.listen(PORT);
+console.log(`Server listen on ${PORT}`);
 
 io.on('connection', (socket) => {
-  socket.emit('popo', { po: 'poppopopo' });
+  socket.emit('connected', 'Server Connected!');
 });
 
 router.get('/socket/socket.js', async (ctx) => {
   let socket_js = await readFile(path.join(__dirname, './socket.js'));
   const origin = ctx.origin.replace(/http:|https:/, '');
-  const host = `const HOST = '${origin}';`;
-  socket_js = socket_js.toString().replace(`const HOST = 'http://localhost:3000';`, host);
+  console.log(origin);
+  const host = `let HOST = '${origin}';`;
+  socket_js = socket_js.toString().replace(`let HOST = 'http://localhost:3000';`, host);
   ctx.type = 'text/javascript; charset=utf-8';
   ctx.body = socket_js;
 });
+
+router.post('/socket/punch', async (ctx) => {
+  let { card_uid, card_type } = ctx.request.body;
+  const origin = `http://localhost:${rails_port}`;
+  console.log(card_uid, card_type);
+  
+  try {
+    if (!card_uid) {
+      throw Error('Error! no card_uid');
+    }
+    const card_info = await r2.get(`${origin}/cards.json?card_uid=${card_uid}`).json;
+    const user_name = _.get(card_info, '0.user_name');
+    const msg = {
+      "card_uid": card_uid,
+      "card_type": card_type
+    };
+    console.log(card_info);
+    if (user_name) {
+      const res = await r2.post(`${origin}/punch_logs.json`, { json: msg }).json;
+      if (res.slack_url) {
+        const raw_url = res.url.replace('.json', '').replace(origin, ctx.origin);
+        const text = `<@${res.slack_name}> ${res.user_name} [ ${res.description || res.card_uid} ] Punched at <${raw_url}|${new Date(res.updated_at).toLocaleString()}>`;
+        const slack_res = await slack.send(res.slack_url, res.slack_room_id, text);
+      }
+      ctx.body = res;
+    } else {
+      io.emit('card_info', msg);
+      ctx.body = 'ok';
+    }
+  } catch (e) {
+    ctx.body = e.message;
+    ctx.status = 421;
+  }
+});
+
+// logger
+async function logger(ctx, next) {
+  const start = Date.now()
+  await next()
+  const ms = Date.now() - start
+  console.log(`[${new Date(start)}] ${ctx.method} ${ctx.url} - ${ms}ms`)
+}
