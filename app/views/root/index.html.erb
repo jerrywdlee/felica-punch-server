@@ -1,0 +1,8 @@
+<h1 class="index">Felica Punch</h1>
+<p class="welcome">Select Menu</p>
+<ul class="index">
+  <% @routes.each do |route| %>
+    <li><%= link_to route.capitalize, route %></li>
+  <% end %>
+</ul>
+
