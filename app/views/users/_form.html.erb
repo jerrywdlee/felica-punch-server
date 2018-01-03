@@ -26,6 +26,12 @@
     <%= form.text_field :pass, id: :user_pass %>
   </div>
 
+
+  <div class="field">
+    <%= form.label :slack_url %>
+      <%= form.text_field :slack_url, id: :user_slack_url %>
+  </div>
+
   <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description, id: :user_description %>

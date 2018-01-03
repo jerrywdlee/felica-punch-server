@@ -1,7 +1,7 @@
 class PunchLogsController < ApplicationController
   before_action :set_punch_log, only: [:show, :edit, :update, :destroy]
-  skip_before_action :verify_authenticity_token, 
-  if: Proc.new { |c| c.request.format == 'application/json' }
+  # skip_before_action :verify_authenticity_token, 
+  # if: Proc.new { |c| c.request.format == 'application/json' }
 
   # GET /punch_logs
   # GET /punch_logs.json
