@@ -1,0 +1,11 @@
+# example of dev-service.conf.yml
+
+- 
+  nameTag: Node # needed, as the name tag show in console
+  color: yellow # optional, the color of name tag
+  command: npm run watch # needed, command to start this service 
+
+- 
+  nameTag: Rails # needed, as the name tag show in console
+  color: blue # optional, the color of name tag
+  command: rails s -p 3000 # needed, command to start this service 
