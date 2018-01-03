@@ -2,18 +2,24 @@
   "name": "felica-punch-server",
   "private": true,
   "scripts": {
-    "server": "run-ds"
+    "server": "run-ds",
+    "watch": "nodemon socket/index.js --watch socket",
+    "dev": "run-ds dev-conf.yml"
   },
   "engines": {
     "node": "8.9.x"
   },
   "dependencies": {
     "dev-service-runner": "^0.1.1",
-    "express": "^4.16.2",
-    "http-proxy-middleware": "^0.17.4",
     "koa": "^2.4.1",
     "koa-better-http-proxy": "^0.2.4",
+    "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.3.0",
+    "lodash": "^4.17.4",
+    "r2": "^2.0.0",
     "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.7"
   }
 }
