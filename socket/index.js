@@ -83,12 +83,13 @@ router.post('/socket/punch', async (ctx) => {
     console.log(card_info);
     if (user_name) {
       const res = await r2.post(`${origin}/punch_logs.json`, { json: msg }).json;
+      ctx.body = res;
       if (res.slack_url) {
         const raw_url = res.url.replace('.json', '').replace(origin, ctx.origin);
         const text = `<@${res.slack_name}> ${res.user_name} [ ${res.description || res.card_uid} ] Punched at <${raw_url}|${new Date(res.updated_at).toLocaleString()}>`;
-        const slack_res = await slack.send(res.slack_url, res.slack_room_id, text);
+        const slack_res = slack.send(res.slack_url, res.slack_room_id, text); // 非同期でSlackに通知
       }
-      ctx.body = res;
+      // ctx.body = res;
     } else {
       io.emit('card_info', msg);
       ctx.body = 'ok';
