@@ -10,5 +10,15 @@
   <%= @punch_log.card_type %>
 </p>
 
+<p>
+  <strong>Created at:</strong>
+  <%= @punch_log.created_at.localtime %>
+</p>
+
+<p>
+  <strong>Updated at:</strong>
+  <%= @punch_log.updated_at.localtime %>
+</p>
+
 <%= link_to 'Edit', edit_punch_log_path(@punch_log) %> |
 <%= link_to 'Back', punch_logs_path %>
