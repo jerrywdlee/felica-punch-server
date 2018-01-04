@@ -92,12 +92,17 @@ router.post('/socket/punch', async (ctx) => {
       // ctx.body = res;
     } else {
       io.emit('card_info', msg);
-      ctx.body = 'ok';
+      // ctx.body = 'ok';
+      ctx.status = 200;
     }
   } catch (e) {
     ctx.body = e.message;
     ctx.status = 421;
   }
+});
+
+router.get('/socket/heart_beat', async (ctx, next) => {
+  ctx.status = 200;
 });
 
 // logger
