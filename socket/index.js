@@ -93,10 +93,11 @@ router.post('/socket/punch', async (ctx) => {
     } else {
       io.emit('card_info', msg);
       // ctx.body = 'ok';
-      ctx.status = 200;
+      // ctx.status = 200;
+      ctx.body = { user_name: 'New Card!', card_uid };
     }
   } catch (e) {
-    ctx.body = e.message;
+    ctx.body = { status: 'error', error: e.message };
     ctx.status = 421;
   }
 });
