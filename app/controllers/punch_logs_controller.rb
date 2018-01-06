@@ -4,7 +4,8 @@ class PunchLogsController < ApplicationController
   # GET /punch_logs
   # GET /punch_logs.json
   def index
-    @punch_logs = PunchLog.all
+    # @punch_logs = PunchLog.all
+    @punch_logs = PunchLog.search(params)
   end
 
   # GET /punch_logs/1

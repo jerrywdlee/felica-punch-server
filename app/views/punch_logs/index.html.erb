@@ -17,7 +17,7 @@
   <tbody>
     <% @punch_logs.each do |punch_log| %>
       <tr>
-        <td><%= Card.search(punch_log.card_uid).first.name %></td>
+        <td><%= punch_log.name %></td>
         <td><%= punch_log.card_uid %></td>
         <td><%= punch_log.card_type %></td>
         <td><%= punch_log.created_at.localtime %></td>

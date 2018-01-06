@@ -5,7 +5,7 @@ class CardsController < ApplicationController
   # GET /cards.json
   def index
     # @cards = Card.all
-    @cards = Card.search(params[:card_uid])
+    @cards = Card.search(params)
     # p @cards
   end
 
