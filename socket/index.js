@@ -2,6 +2,7 @@
 
 const Koa = require('koa');
 const Router = require('koa-router');
+const ipFilter = require('ip-filter');
 const proxy = require('koa-better-http-proxy');
 const bodyParser = require('koa-bodyparser');
 const fs = require('fs');
@@ -20,8 +21,11 @@ const slack = new Slack('Felica Punch', ':panda_face:');
 const PORT = process.env.PORT || 3030;
 const rails_port = 3000;
 
+require('dotenv').config();
+
 // const io = require('socket.io')(app);
 app.use(logger);
+app.use(filter(process.env.IP_ALLOW));
 app.use(async (ctx, next) => {
   if (ctx.path !== '/socket/punch') ctx.disableBodyParser = true;
   await next();
@@ -97,7 +101,7 @@ router.post('/socket/punch', async (ctx) => {
       ctx.body = { user_name: 'New Card!', card_uid };
     }
   } catch (e) {
-    ctx.body = { status: 'error', error: e.message };
+    ctx.body = { error: e.message };
     ctx.status = 421;
   }
 });
@@ -112,4 +116,34 @@ async function logger(ctx, next) {
   await next()
   const ms = Date.now() - start
   console.log(`[${new Date(start)}] ${ctx.method} ${ctx.url} - ${ms}ms`)
+}
+
+function filter(ipAllow) {
+  let ipAllowList = [];
+  if (ipAllow) {
+    ipAllowList = ipAllow.split(',');
+  } else {
+    ipAllowList = ['*'];
+  }
+  ipAllowList = ipAllowList.map(ip => ip.trim()); 
+  ipAllowList.push('127.0.0.1')// allows localhost
+  let fun = async (ctx, next) => {
+    let ip = ctx.ip;
+    if (ip === '::1') {
+      ip = '127.0.0.1';
+    } else {
+      ip = ip.match(/\d+.\d+.\d+.\d+/) ? ip.match(/\d+.\d+.\d+.\d+/)[0] : '127.0.0.1';
+    }
+    const res = ipFilter(ip, ipAllowList, { strict: false });
+    console.log('ipAllowList', ipAllowList);
+    console.log('ip', ip);
+    console.log('ipFilter', res);
+    if (res) {
+      await next();
+    } else {
+      ctx.body = {error: `Your IP: ${ip} Not Allowed`};
+      ctx.status = 403;
+    }
+  };
+  return fun;
 }
