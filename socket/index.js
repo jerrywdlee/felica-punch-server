@@ -63,8 +63,8 @@ router.get('/socket/socket.js', async (ctx) => {
   let socket_js = await readFile(path.join(__dirname, './socket.js'));
   const origin = ctx.origin.replace(/http:|https:/, '');
   console.log(origin);
-  const host = `let HOST = '${origin}';`;
-  socket_js = socket_js.toString().replace(`let HOST = 'http://localhost:3000';`, host);
+  const host = `HOST = '${origin}';`;
+  socket_js = socket_js.toString().replace(`HOST = 'http://localhost:3000';`, host);
   ctx.type = 'text/javascript; charset=utf-8';
   ctx.body = socket_js;
 });

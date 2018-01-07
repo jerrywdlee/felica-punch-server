@@ -5,11 +5,11 @@
 <%= form_tag("/punch_logs", method: "get") do %>
   <div class="field">
     <%= label_tag(:user_id, "User:") %>
-    <%= collection_select(User, :user_id, User.all, :id, :name, :prompt => true) %>
+    <%= collection_select(User, :user_id, User.all, :id, :name, :include_blank => "No selected", :selected => params.dig(:User, :user_id)) %>
   </div>
   <div class="field">
     <%= label_tag(:user_id, "Month:") %>
-    <%= select(PunchLog, :time_span, PunchLog.time_span, :prompt => true) %>
+    <%= select(PunchLog, :time_span, PunchLog.time_span, :include_blank => "No selected", :selected => params.dig(:PunchLog, :time_span)) %>
   </div>
   <%= link_to "Reset", :punch_logs %>
   <%= submit_tag("Search") %>
@@ -21,6 +21,7 @@
   <thead>
     <tr>
       <th>User name</th>
+      <th>Card description</th>
       <th>Card uid</th>
       <th>Card type</th>
       <th>Created at</th>
@@ -33,6 +34,7 @@
     <% @punch_logs.each do |punch_log| %>
       <tr>
         <td><%= punch_log.name %></td>
+        <td><%= punch_log.description %></td>
         <td><%= punch_log.card_uid %></td>
         <td><%= punch_log.card_type %></td>
         <td><%= punch_log.created_at.localtime %></td>

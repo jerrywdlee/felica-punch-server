@@ -1,7 +1,7 @@
-'use strict';
+// 'use strict';
 
-let HOST = 'http://localhost:3000';
-const socket = io(HOST);
+var HOST = 'http://localhost:3000';
+var socket = io(HOST);
 socket.on('connected', (data) => {
   console.log(data);
 });

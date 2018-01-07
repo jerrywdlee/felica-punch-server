@@ -16,6 +16,7 @@ class CardsController < ApplicationController
 
   # GET /cards/new
   def new
+    @user_id = params[:user_id]
     @card = Card.new
   end
 
