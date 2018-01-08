@@ -49,5 +49,17 @@
 
 <br>
 
-<%= link_to 'New Punch Log', new_punch_log_path %>
-<%= link_to 'Top', root_path %>
+<%= link_to 'New Punch Log', new_punch_log_path %> |
+<%= link_to 'Top', root_path %> 
+<div>
+  <br>
+  <b>Download CSV: </b>
+  <% user_id = params.dig(:User, :user_id); time_span = params.dig(:PunchLog, :time_span) %>
+  <%= link_to "Raw CSV", punch_logs_path(format: :csv, User: {user_id: user_id}, PunchLog: {time_span: time_span}) %>
+  <% if !user_id.to_s.empty? %>
+    <% link_label = "#{User.find(user_id).name}\'s Logs"%>
+    <% link_label << " of #{DateTime.parse(time_span).strftime("%Y-%m")}" if !time_span.to_s.empty? %>
+  | <%= link_to link_label, punch_logs_path(format: :csv, User: {user_id: user_id}, PunchLog: {time_span: time_span, generate_record: true}) %>
+  <% end %>
+</div>
+

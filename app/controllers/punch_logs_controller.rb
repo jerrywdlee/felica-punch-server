@@ -7,7 +7,18 @@ class PunchLogsController < ApplicationController
   # GET /punch_logs.json
   def index
     # @punch_logs = PunchLog.all
-    @punch_logs = PunchLog.search(params)
+    @punch_logs = PunchLog.search(params).order("created_at desc")
+    if params.dig :PunchLog, :generate_record
+      @records = PunchLogsHelper.generate_record(@punch_logs)
+      user_id = params.dig(:User, :user_id); time_span = params.dig(:PunchLog, :time_span)
+      link_label = "PunchLogs_#{User.find(user_id).name}"
+      link_label << "_#{DateTime.parse(time_span).strftime("%Y-%m")}" if !time_span.to_s.empty?
+      respond_to do |format|
+        format.csv do
+          send_data render_to_string, filename: "#{link_label}.csv", type: :csv
+        end
+      end
+    end
   end
 
   # GET /punch_logs/1

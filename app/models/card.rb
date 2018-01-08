@@ -20,7 +20,7 @@ class Card < ApplicationRecord
     #   Card.card_user
     # end
   end
-  # def card_user_label
-  #   "#{name} - #{card_uid}"
-  # end
+  def card_user_label
+    "#{name} - #{card_uid}"
+  end
 end

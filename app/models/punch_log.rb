@@ -9,10 +9,6 @@ class PunchLog < ApplicationRecord
     user_id = params.dig(:User, :user_id)
     time_span = params.dig(:PunchLog, :time_span)
     case true
-    # when params.key?(:card_uid)
-    #   PunchLog.log_card_user.where('cards.card_uid = ?', params[:card_uid])
-    # when params.key?(:name)
-    #   PunchLog.log_card_user.where('users.name = ?', params[:name])
     when !user_id.to_s.empty? && !time_span.to_s.empty?
       time_start = DateTime.parse(time_span).beginning_of_month
       time_end = DateTime.parse(time_span).end_of_month
