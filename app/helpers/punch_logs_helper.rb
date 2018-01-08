@@ -11,8 +11,8 @@ module PunchLogsHelper
       }
       if punch_in_rec
         record[:punch_in] = punch_in_rec.created_at
-        time_dur = record[:punch_out] - record[:punch_in]
-        record[:work_time] = Time.at(time_dur).utc.strftime("%H:%M:%S")
+        time_due = record[:punch_out] - record[:punch_in]
+        record[:work_time] = Time.at(time_due).utc.strftime("%H:%M:%S")
       end
       records << record
       i += 2

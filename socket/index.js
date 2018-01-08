@@ -34,9 +34,6 @@ app.use(bodyParser());// こいつはrails用のparamsを勝手にjsonにする
 app.use(router.routes()).use(router.allowedMethods());
 app.use(proxy(`localhost:${rails_port}`, {
   filter: (ctx) => {
-    // return true;
-    // console.log(ctx.path);
-    // console.log(ctx.path.includes('socket.io'));
     if (ctx.path.includes('socket.io') || ctx.path.includes('/socket/socket.js')) {
       return false;
     } else {
@@ -62,7 +59,7 @@ io.on('connection', (socket) => {
 router.get('/socket/socket.js', async (ctx) => {
   let socket_js = await readFile(path.join(__dirname, './socket.js'));
   const origin = ctx.origin.replace(/http:|https:/, '');
-  console.log(origin);
+  // console.log(origin);
   const host = `HOST = '${origin}';`;
   socket_js = socket_js.toString().replace(`HOST = 'http://localhost:3000';`, host);
   ctx.type = 'text/javascript; charset=utf-8';
@@ -135,9 +132,9 @@ function filter(ipAllow) {
       ip = ip.match(/\d+.\d+.\d+.\d+/) ? ip.match(/\d+.\d+.\d+.\d+/)[0] : '127.0.0.1';
     }
     const res = ipFilter(ip, ipAllowList, { strict: false });
-    console.log('ipAllowList', ipAllowList);
-    console.log('ip', ip);
-    console.log('ipFilter', res);
+    // console.log('ipAllowList', ipAllowList);
+    // console.log('ip', ip);
+    // console.log('ipFilter', res);
     if (res) {
       await next();
     } else {
