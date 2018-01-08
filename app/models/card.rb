@@ -2,7 +2,9 @@ class Card < ApplicationRecord
   belongs_to :user
   has_many :punch_log, foreign_key: :card_uid, primary_key: :card_uid
   def self.card_user
-    Card.joins(:user).select("users.name, users.slack_url, users.slack_room_id, users.slack_name, cards.*")
+    users_query = "users.name, users.slack_url, users.slack_room_id, users.slack_name,"
+    users_query << " users.param_1, users.param_2, users.param_3"
+    Card.joins(:user).select("#{users_query}, cards.*")
     # p @card_user.first.name
   end
   def self.search(params)

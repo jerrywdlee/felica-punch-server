@@ -35,6 +35,21 @@
   <%= @user.slack_name %>
 </p>
 
+<p>
+  <strong>Param 1:</strong>
+  <%= @user.param_1 %>
+</p>
+
+<p>
+  <strong>Param 2:</strong>
+  <%= @user.param_2 %>
+</p>
+
+<p>
+  <strong>Param 3:</strong>
+  <%= @user.param_3 %>
+</p>
+
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'New Card', new_card_path(user_id: @user.id) %> |
 <%= link_to 'Punch Log', punch_logs_path(User: {user_id: @user.id}) %> |
