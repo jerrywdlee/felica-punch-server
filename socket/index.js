@@ -132,13 +132,14 @@ function filter(ipAllow) {
       ip = ip.match(/\d+.\d+.\d+.\d+/) ? ip.match(/\d+.\d+.\d+.\d+/)[0] : '127.0.0.1';
     }
     const res = ipFilter(ip, ipAllowList, { strict: false });
+    const realIp = ctx.headers["x-forwarded-for"]
     // console.log('ipAllowList', ipAllowList);
     // console.log('ip', ip);
     // console.log('ipFilter', res);
     if (res) {
       await next();
     } else {
-      ctx.body = {error: `Your IP: ${ip} Not Allowed`};
+      ctx.body = { error: `Your IP: ${ip}, ${realIp} Not Allowed` };
       ctx.status = 403;
     }
   };
