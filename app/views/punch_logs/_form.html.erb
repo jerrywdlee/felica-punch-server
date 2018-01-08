@@ -24,6 +24,11 @@
     <%= form.number_field :card_type, id: :punch_log_card_type %>
   </div>
 
+  <div class="field">
+    <%= form.label :created_at %>
+    <%= form.datetime_select :created_at, id: :punch_log_created_at, :use_month_numbers => true %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

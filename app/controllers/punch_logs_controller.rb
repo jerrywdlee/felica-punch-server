@@ -83,6 +83,6 @@ class PunchLogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def punch_log_params
-      params.require(:punch_log).permit(:card_uid, :card_type)
+      params.require(:punch_log).permit(:card_uid, :card_type, :created_at)
     end
 end
