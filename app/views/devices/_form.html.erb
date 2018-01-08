@@ -1,0 +1,43 @@
+<%= form_with(model: device, local: true) do |form| %>
+  <% if device.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(device.errors.count, "error") %> prohibited this device from being saved:</h2>
+
+      <ul>
+      <% device.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <script>
+      const generateUid = (length = 16) => {
+        let uid = '';
+        for(let i = 0; i < length; i++) {
+          uid += parseInt(36 * Math.random()).toString(36);
+        }
+        document.querySelector('#device_device_uid').value = uid;
+      };
+      
+    </script>
+    <%= form.label :device_uid %>
+    <%= form.text_field :device_uid, id: :device_device_uid %>
+    <%= button_tag "Generate", type: 'button', onclick: "generateUid();" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :device_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :param_1 %>
+    <%= form.text_field :param_1, id: :device_param_1 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

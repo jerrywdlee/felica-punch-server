@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'root/index'
   root to: 'root#index'
 
+  resources :devices
   resources :punch_logs
   resources :cards
   resources :users

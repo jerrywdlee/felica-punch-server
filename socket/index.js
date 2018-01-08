@@ -125,27 +125,49 @@ function filter(ipAllow) {
   ipAllowList = ipAllowList.map(ip => ip.trim()); 
   ipAllowList.push('127.0.0.1')// allows localhost
   let fun = async (ctx, next) => {
-    let ip = '';
-    if (ctx.headers["x-forwarded-for"]) {
-      ip = _.last(ctx.headers["x-forwarded-for"].split(',')).trim();
+    if (ctx.path === '/socket/punch') {
+      const device_uid = ctx.headers["x-device-uid"];
+      if (_.includes(deviceIdsAllow, device_uid)) {
+        await next();
+      } else {
+        await updateDeviceIds();
+        if (_.includes(deviceIdsAllow, device_uid)) {
+          await next();
+        } else {
+          ctx.body = { error: `Your Device: ${device_uid} Not Allowed` };
+          ctx.status = 403;
+        }
+      }
     } else {
-      ip = ctx.ip;
-    }
-    if (ip === '::1') {
-      ip = '127.0.0.1';
-    } else {
-      ip = ip.match(/\d+.\d+.\d+.\d+/) ? ip.match(/\d+.\d+.\d+.\d+/)[0] : '127.0.0.1';
-    }
-    const res = ipFilter(ip, ipAllowList, { strict: false });
-    // console.log('ipAllowList', ipAllowList);
-    // console.log('ip', ip);
-    // console.log('ipFilter', res);
-    if (res) {
-      await next();
-    } else {
-      ctx.body = { error: `Your IP: ${ip} Not Allowed` };
-      ctx.status = 403;
+      let ip = '';
+      if (ctx.headers["x-forwarded-for"]) {
+        ip = _.last(ctx.headers["x-forwarded-for"].split(',')).trim();
+      } else {
+        ip = ctx.ip;
+      }
+      if (ip === '::1') {
+        ip = '127.0.0.1';
+      } else {
+        ip = ip.match(/\d+.\d+.\d+.\d+/) ? ip.match(/\d+.\d+.\d+.\d+/)[0] : '127.0.0.1';
+      }
+      const res = ipFilter(ip, ipAllowList, { strict: false });
+      // console.log('ipAllowList', ipAllowList);
+      // console.log('ip', ip);
+      // console.log('ipFilter', res);
+      if (res) {
+        await next();
+      } else {
+        ctx.body = { error: `Your IP: ${ip} Not Allowed` };
+        ctx.status = 403;
+      }
     }
   };
   return fun;
+}
+
+let deviceIdsAllow = [];
+async function updateDeviceIds() {
+  const origin = `http://localhost:${rails_port}`;
+  const res = await r2.get(`${origin}/devices.json`).json;
+  deviceIdsAllow = res.map(d => d.device_uid);
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103103206) do
+ActiveRecord::Schema.define(version: 20180108161917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,14 @@ ActiveRecord::Schema.define(version: 20180103103206) do
     t.string "card_uid"
     t.integer "card_type"
     t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "devices", force: :cascade do |t|
+    t.string "device_uid"
+    t.text "description"
+    t.string "param_1"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
