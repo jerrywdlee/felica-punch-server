@@ -13,7 +13,11 @@
 
   <div class="field">
     <%= form.label :user_id %>
-    <%= form.collection_select :user_id, User.all, :id, :name, :prompt => true %>
+    <% if params[:user_id] %>
+      <%= form.collection_select :user_id, User.all, :id, :name, :prompt => true, :selected => params[:user_id] %>
+    <% else %>
+      <%= form.collection_select :user_id, User.all, :id, :name, :prompt => true %>
+    <% end %>
   </div>
 
   <div class="field">
